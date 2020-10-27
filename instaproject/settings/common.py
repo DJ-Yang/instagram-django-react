@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     # third apps
     'debug_toolbar',
     'bootstrap4',
+    'django_pydenticon',
 
     # local apps
     'accounts',
