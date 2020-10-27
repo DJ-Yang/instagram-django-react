@@ -30,6 +30,7 @@ INSTALLED_APPS = [
 
     # third apps
     'debug_toolbar',
+    'bootstrap4',
 
     # local apps
     'accounts',
@@ -79,6 +80,7 @@ DATABASES = {
     }
 }
 
+AUTH_USER_MODEL = 'accounts.User'
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -111,7 +113,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
