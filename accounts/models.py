@@ -32,7 +32,7 @@ class User(AbstractUser):
     if self.avatar:
       return self.avatar.url
     else:
-      resolve_url("pydenticon_image", self.username)
+      return resolve_url("pydenticon_image", self.username)
 
 
   # 메일 발송 함수
