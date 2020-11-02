@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from django.urls import reverse
 
 import re
 
@@ -13,6 +14,10 @@ class Post(models.Model):
   def __str__(self):
     return self.caption
 
+  # @property
+  # def author_name(self):
+  #   return f"{self.author.first_name} {self.author.last_name}"
+
   def extract_tag_list(self):
     tag_name_list = re.findall(r"#([a-zA-z\dㄱ-힣]+)", self.caption)
     tag_list = []
@@ -22,8 +27,8 @@ class Post(models.Model):
     return tag_list
 
   
-  # def get_absolute_url(self):
-  #     return reverse("", kwargs={"pk": self.pk})
+  def get_absolute_url(self):
+      return reverse("instagram:post_detial", kwargs={"pk": self.pk})
   
 
 class Tag(models.Model):

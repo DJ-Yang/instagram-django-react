@@ -8,6 +8,8 @@ from django.template.loader import render_to_string
 # validator
 from django.core.validators import RegexValidator
 
+from django.shortcuts import resolve_url
+
 # 유저모델을 슬대는 get_user_model() 사용 하면 알아서 settings에 있는 AUTH_USER_MODEL을 참조해서 가져옴
 class User(AbstractUser):
   class GenderChoices(models.TextChoices):
@@ -20,6 +22,18 @@ class User(AbstractUser):
   gender = models.CharField(max_length=1, blank=True, choices=GenderChoices.choices)
   avatar = models.ImageField(blank=True, upload_to="accounts/profile/%Y/%m/%d",
                               help_text="24px * 24px 크기의 png/jpg 파일을 업로드해주세요.")
+
+  @property
+  def name(self):
+    return f"{self.first_name} {self.last_name}"
+
+  @property
+  def avatar_url(self):
+    if self.avatar:
+      return self.avatar.url
+    else:
+      resolve_url("pydenticon_image", self.username)
+
 
   # 메일 발송 함수
   # def send_welcome_email(self):
