@@ -9,6 +9,15 @@ from django.contrib import messages
 from django.contrib.auth import get_user_model
 
 @login_required
+def index(request):
+  suggested_user_list = get_user_model().objects.exclude(pk=request.user.pk)\
+  .exclude(pk__in=request.user.following_set.all())[:3]
+
+  return render(request, "instagram/index.html", {
+    "suggested_user_list": suggested_user_list,
+  })
+
+@login_required
 def post_new(request):
   if request.method == 'POST':
     form = PostForm(request.POST, request.FILES)
