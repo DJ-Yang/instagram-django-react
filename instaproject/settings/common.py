@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'bootstrap4',
     'django_pydenticon',
+    'easy_thumbnails',
 
     # local apps
     'accounts',
@@ -139,3 +140,5 @@ INTERNAL_IPS = [
 ADMINS = [
     ('Dongjin Yang', 'email@email.com'),
 ]
+
+# easy thumbnail
