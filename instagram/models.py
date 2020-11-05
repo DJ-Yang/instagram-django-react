@@ -37,10 +37,18 @@ class Post(BaseModel):
     return tag_list
   
   def get_absolute_url(self):
-      return reverse("instagram:post_detial", kwargs={"pk": self.pk})
+      return reverse("instagram:post_detail", kwargs={"pk": self.pk})
 
   def is_like_user(self, user):
     return self.like_user_set.filter(pk=user.pk).exists()
+
+  class Meta:
+    ordering = ['-id']
+
+class Comment(BaseModel):
+  author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+  post = models.ForeignKey(Post, on_delete=models.CASCADE)
+  message = models.TextField()
 
   class Meta:
     ordering = ['-id']
