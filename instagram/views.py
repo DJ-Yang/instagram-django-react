@@ -10,12 +10,21 @@ from django.contrib.auth import get_user_model
 
 from django.db.models import Q
 
+from django.utils import timezone
+import datetime
+
 @login_required
 def index(request):
+
+  timesince = timezone.now() - datetime.timedelta(days=3)
   post_list = Post.objects.all()\
         .filter(
           Q(author=request.user) |
           Q(author__in=request.user.following_set.all())
+        )\
+        .filter(
+          # great than equall
+          created_at__gte = timesince
         )
 
   suggested_user_list = get_user_model().objects.exclude(pk=request.user.pk)\
