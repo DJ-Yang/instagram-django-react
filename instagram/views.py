@@ -98,6 +98,10 @@ def comment_new(request, post_pk):
       comment.author = request.user
       comment.post = post
       comment.save()
+      if request.is_ajax():
+        return render(request, "instagram/_comment.html", {
+          "comment": comment,
+        })
       return redirect(comment.post)
   else:
     form = CommentForm()
