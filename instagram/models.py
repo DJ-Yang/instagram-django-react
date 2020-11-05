@@ -13,11 +13,13 @@ class BaseModel(models.Model):
 
 
 class Post(BaseModel):
-  author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+  # author에서 유저 모델을 이용하려면 'user_set'을 사용해야하는데 like_user_set에서도 같은 related_name을 사용해서 이런 일이 발생함
+  author = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='my_user_set', on_delete=models.CASCADE)
   photo = models.ImageField(upload_to="instagram/%Y/%m/%d")
   caption = models.CharField(max_length=500)
   tag_set = models.ManyToManyField('Tag', blank=True)
   location = models.CharField(max_length=100)
+  like_user_set = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='like_user_set', blank=True)
 
   def __str__(self):
     return self.caption
@@ -33,10 +35,15 @@ class Post(BaseModel):
       tag, _ = Tag.objects.get_or_create(name=tag_name)
       tag_list.append(tag)
     return tag_list
-
   
   def get_absolute_url(self):
       return reverse("instagram:post_detial", kwargs={"pk": self.pk})
+
+  def is_like_user(self, user):
+    return self.like_user_set.filter(pk=user.pk).exists()
+
+  class Meta:
+    ordering = ['-id']
   
 
 class Tag(models.Model):
@@ -44,3 +51,7 @@ class Tag(models.Model):
 
   def __str__(self):
     return self.name
+
+# class LikeUser(models.Model):
+#   post = models.ForeignKey(Post, on_delete=models.CASCADE)
+#   user = models.ForeignKey(settngs.AUTH_USER_MODEL, on_delete=models.CASCADE)

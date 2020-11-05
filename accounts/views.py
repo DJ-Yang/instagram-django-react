@@ -93,4 +93,3 @@ def user_unfollow(request, username):
   messages.success(request, f"{unfollow_user}님을 언팔로우했습니다.")
   redirect_url = request.META.get("HTTP_REFERER", "root")
   return redirect(redirect_url)
-  pass
